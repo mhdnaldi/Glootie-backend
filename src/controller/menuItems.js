@@ -52,12 +52,10 @@ module.exports = {
         menu_status
       }
       const result = await postMenu(setData)
-      console.log(result);
       return helper.response(res, 200, 'success add product', result)
 
     }catch(err) {
-      console.log(err);
-      res.send(err).status(404)
+      return helper.response(res, 404, 'Bad request', err)
     }
   },
   patchMenu: async(req, res) => {
