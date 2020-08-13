@@ -1,16 +1,17 @@
-const {getMenuItem, getMenuId, postMenu, patchMenu} = require('../model/menuItems')
+const {getMenuItem, getMenuId, postMenu, patchMenu, deleteItem} = require('../model/menuItems')
 
 const {getCategoryId} = require('../model/category')
+const helper = require('../helper/helper')
+
 
 module.exports = {
   getMenuItem: async(req, res) => {
     try {
       const result = await getMenuItem()
-      console.log(result);
-      res.send(result)
+      return helper.response(res, 201, 'Data found', result)
     } catch(err) {
-      console.log(err);
-      res.send(err)
+  
+      return helper.response(res, 404, 'Bad Request', err)
     }
   },
   getMenuId: async(req, res) => {
@@ -18,14 +19,13 @@ module.exports = {
       const {id} = req.params
       const result = await getMenuId(id)
       if(result.length > 0) {
-      console.log(result);
-      res.send(result)
+        return helper.response(res, 201, 'Data found', result)
       } else {
-        console.log(`Data with id:${id} not found!`);
-        res.send(`Data with id:${id} not found!`).status(404)
+        return helper.response(res, 404, `Data with id:${id} not found!`)
       }
     } catch(err) {
-      console.log(err);
+      
+      return helper.response(res, 404, 'Bad Request', err)
     }
   },
   getCategoryId: async(req, res) => {
@@ -33,12 +33,12 @@ module.exports = {
       const {id} = req.params
       const result = await getCategoryId(id)
       if(result.length > 0) {
-        console.log(result);
+        return helper.response(res, 201, 'Data found', result)
       } else {
-        console.log(`Data with id:${id} not found!`);
+        return helper.response(res, 404, `Data with id:${id} not found!`)
       }
     } catch(err) {
-      console.log(err);
+      return helper.response(res, 404, 'Bad Request', err)
     }
   },
   postMenu: async(req, res) => {
@@ -53,11 +53,11 @@ module.exports = {
       }
       const result = await postMenu(setData)
       console.log(result);
-      res.send(result)
+      return helper.response(res, 200, 'success add product', result)
 
     }catch(err) {
       console.log(err);
-      res.send(err)
+      res.send(err).status(404)
     }
   },
   patchMenu: async(req, res) => {
@@ -71,21 +71,24 @@ module.exports = {
         updated_at: new Date(),
         menu_status
       }
-
       const checkId = await getMenuId(id)
       if(checkId.length > 0) {
         const result = await patchMenu(setData, id)
-        console.log(result);
-        res.send(result)
-        console.log(`Success edit item with id:${id}`);
-        res.send(`Success edit item with id:${id}`).status(201)
+        return helper.response(res, 200, 'success edit product', result)   
       } else {
-      console.log(`Data with id:${id} not found!`);
-        res.send(`Data with id:${id} not found!`).status(404)
+      return helper.response(res, 404, 'Data not found')
       }
     } catch(err) {
-      console.log('Bad request');
-      res.send('Bad request').status(404)
+      return helper.response(res, 404, 'Bad Request', err)
+    }
+  },
+  deleteItem : async(req, res) => {
+    const {id} = req.params
+    try {
+      const result = await deleteItem(id)
+      return helper.response(res, 201, 'Item deleted', result)
+    }catch(err) {
+      return helper.response(res, 404, 'Bad request', err)
     }
   }
 }

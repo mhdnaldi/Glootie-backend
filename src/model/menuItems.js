@@ -15,13 +15,6 @@ module.exports = {
       })
     })
   },
-  getCategoryId: (id) => {
-    return new Promise ((resolve, reject) => {
-      connection.query(`SELECT * FROM menu_items WHERE category_id = ${id}`, (err, data)=> {
-        !err ? resolve(data) : reject(new Error(err))
-      })
-    })
-  },
   postMenu: (setData) => {
     return new Promise((resolve, reject) => {
       connection.query(`INSERT INTO menu_items SET ?`, setData, (err, data) => {
@@ -39,7 +32,7 @@ module.exports = {
   },
   patchMenu :(setData, id) => {
     return new Promise ((resolve, reject) => {
-      connection.query(`UPDATE menu_items SET ? WHERE menu_id = ?`), [setData, id], (err, data) => {
+      connection.query(`UPDATE menu_items SET ? WHERE menu_id = ?`, [setData, id], (err, data) => {
         if(!err) {
           const newResult = {
             menu_id: id,
@@ -47,9 +40,23 @@ module.exports = {
           }
           resolve(newResult)
         } else {
-          reject (new Error(err))
+          reject(new Error(err))
         }
-      }
+      })
   })
+  },
+  deleteItem :(id) => {
+    return new Promise((resolve, reject) => {
+      connection.query(`DELETE FROM menu_items WHERE menu_id = ?`, id, (err, data) => {
+        if(!err) {
+          const newResult = {
+            id: id
+          }
+          resolve(newResult)
+        } else {
+          reject(new Error(err))
+        }
+      })
+    })
   }
 }
