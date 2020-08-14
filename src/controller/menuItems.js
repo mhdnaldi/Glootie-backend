@@ -1,16 +1,60 @@
-const {getMenuItem, getMenuId, postMenu, patchMenu, deleteItem} = require('../model/menuItems')
+const {getMenuItem, getMenuId, postMenu, patchMenu, deleteItem, getMenuCount} = require('../model/menuItems')
 
 const {getCategoryId} = require('../model/category')
 const helper = require('../helper/helper')
+const qs = require('querystring')
 
+let getPrevPage = (page, currentQuery) => {
+  if(page > 1) {
+    const generatePage = {
+      page: page-1
+    }
+    const resultPrevLink = {...currentQuery, ...generatePage}
+    return (qs.stringify(resultPrevLink))
+  } else {
+    return null
+  }
+}
+
+let getNextPage = (page, currentQuery, totalPage) => {
+  if(page < totalPage) {
+    const generatePage = {
+      page: page+1
+    }
+    const resultNextLink = {...currentQuery, ...generatePage}
+    return (qs.stringify(resultNextLink))
+  } else {
+    return null
+  }
+}
 
 module.exports = {
   getMenuItem: async(req, res) => {
+    let {page, limit} = req.query
+    page = parseInt(page)
+    limit = parseInt(limit)
+    let totalData = await getMenuCount()
+    let totalPage = Math.ceil(totalData/limit)
+    let offset = page * limit - limit
+
+    let prevPage = getPrevPage(page, req.query)
+    let nextPage = getNextPage(page, req.query, totalPage)
+
+    const pageInfo = {
+      totalData,
+      page,
+      limit,
+      totalPage,
+      prevPage: prevPage && `http://localhost:3000/menu_items?${prevPage}`,
+      nextPage: nextPage && `http://localhost:3000/menu_items?${nextPage}`
+    }
+
     try {
-      const result = await getMenuItem()
-      return helper.response(res, 201, 'Data found', result)
+      const result = await getMenuItem(limit, offset)
+      console.log(result)
+      return helper.response(res, 200, 'Data found', result, pageInfo)
+      // console.log(pageInfo);
     } catch(err) {
-  
       return helper.response(res, 404, 'Bad Request', err)
     }
   },

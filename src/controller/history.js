@@ -25,9 +25,9 @@ module.exports = {
   },
   postHistory: async(req, res) => {
     try {
-      const {invoice, history_subtotal} = req.body
+      const { history_subtotal} = req.body
       const setData = {
-        invoice,
+        invoice: Math.ceil(Math.random()* 1000000),
         history_subtotal,
         created_at: new Date()
       }

@@ -1,13 +1,21 @@
 const connection = require('../config/mysql')
 
 module.exports = {
-  getMenuItem: () => {
+  getMenuItem: (limit, offset) => {
     return new Promise((resolve, reject) => {
-      connection.query(`SELECT * FROM menu_items`, (err, data) => {
+      connection.query(`SELECT * FROM menu_items LIMIT ? OFFSET`,[limit,offset], (err, data) => {
         !err ? resolve(data) :reject(new Error (err))
       })
     })
   },
+  getMenuCount : () => {
+    return new Promise((resolve,reject) => {
+      connection.query(`SELECT COUNT(*) as total FROM menu_items`, (err, data) => {
+        !err ? resolve(data[0].total) : reject(new Error(err))
+      })
+    })
+  },
+  // PAGINATION --------------------------------
   getMenuId : (id) => {
     return new Promise((resolve, reject) => {
       connection.query(`SELECT * FROM menu_items WHERE menu_id = ${id}`, (err,data) => {

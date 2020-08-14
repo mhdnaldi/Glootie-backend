@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const {getAllOrder, getOrderId, postOrder, patchOrder} = require('../model/order')
+const {getAllOrder, getOrderId, postOrder, patchOrder} = require('../controller/order')
 
 
 router.get('/', getAllOrder)
