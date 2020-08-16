@@ -1,13 +1,12 @@
 const router = require('express').Router()
-const {getAllOrder, getOrderId, postOrder, patchOrder} = require('../controller/order')
+const {getAllOrder, getOrderId, postOrder} = require('../controller/order')
 
 
 router.get('/', getAllOrder)
 
 router.get('/:id', getOrderId)
 
-// router.post('/', postOrder)
+router.post('/', postOrder)
 
-// router.patch('/:id',patchOrder)
 
 module.exports = router

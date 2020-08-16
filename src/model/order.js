@@ -30,20 +30,5 @@ module.exports = {
         }
       })
     })
-  },
-  patchOrder: (setData, id) => {
-    return new Promise ((resolve, reject) => {
-      connection.query(`UPDATE orders SET ? WHERE order_id = ? `, [setData, id], (err, data) => {
-        if(!err) {
-          const newResult = {
-            id: id,
-            ...setData
-          }
-          resolve(newResult)
-        } else {
-          reject(new Error(err))
-        }
-      })
-    })
   }
 }

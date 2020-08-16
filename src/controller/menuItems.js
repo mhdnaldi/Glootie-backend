@@ -28,6 +28,9 @@ let getNextPage = (page, currentQuery, totalPage) => {
   }
 }
 
+// SORT DESC
+
+
 module.exports = {
   getMenuItem: async(req, res) => {
     let {page, limit} = req.query
