@@ -30,5 +30,19 @@ module.exports = {
         }
       })
     })
+  },
+  sumTotal: (id) => {
+    return new Promise ((resolve, reject) => {
+      connection.query(`SELECT SUM(total_price) as total FROM orders WHERE history_id = ?`,id, (err, data) => {
+        !err ? resolve(data[0].total) : reject(new Error(err))
+      })
+    })
+  },
+  getDataOrder: (id) => {
+    return new Promise((resolve, reject) => {
+      connection.query(`SELECT * FROM orders WHERE history_id = ?`, id, (err,data) => {
+        !err ? resolve(data):reject(new Error(err))
+      })
+    })
   }
 }

@@ -1,8 +1,15 @@
-const { getAllOrder, getOrderId, postOrder } = require("../model/order");
+const {
+  getAllOrder,
+  getOrderId,
+  postOrder,
+  sumTotal,
+  getDataOrder
+} = require("../model/order");
 const { postHistory, patchHistory } = require("../model/history");
 const { getMenuId } = require("../model/menuItems");
 const helper = require("../helper/helper");
 const order = require("../model/order");
+const { response } = require("../helper/helper");
 
 module.exports = {
   getAllOrder: async (req, res) => {
@@ -41,11 +48,10 @@ module.exports = {
       let result = await postHistory(setData);
       let historyId = result.history_id;
       let orders = req.body.orders;
-      let subTotal = 0 
-      orders.map(async (value) => {
+      let newOrders = orders.map(async (value) => {
         let menuprice = await getMenuId(value.menu_id);
         menuprice = menuprice[0].menu_price;
-       
+
         const setDataOrder = {
           history_id: historyId,
           menu_id: value.menu_id,
@@ -53,26 +59,28 @@ module.exports = {
           created_at: new Date(),
           total_price: menuprice * value.qty,
         };
-        
-        // const orderResult = await postOrder(setDataOrder);
-        // console.log(setDataOrder);
-  
+
+        let orderResult = await postOrder(setDataOrder);
+
+        const totalPrice = await sumTotal(historyId);
+
+        let tax = totalPrice * 0.10;
+        let setUpdateHistory = {
+          invoice: Math.floor(Math.random() * 1000000 + 1000000),
+          history_subtotal: totalPrice + tax,
+        };
+        let updateHistory = await patchHistory(setUpdateHistory, historyId);
+        let data = await getDataOrder(historyId)
+        const pageInfo = {
+          data,
+          totalPrice,
+          tax,
+          updateHistory
+        }
+        return helper.response(res, 200, "Success", pageInfo);
       });
-      
-      let tax = subTotal * 0.10
-      let setUpdateHistory = {
-        invoice: Math.floor(Math.random() * 1000000),
-        history_subtotal: subTotal + tax
-     }
-     console.log(setUpdateHistory);
-      // -------------------------------------------
-    
-      // console.log(setUpdateHistory);
-      // let updateHistory = await patchHistory(setUpdateHistory, historyId)
-      // console.log(updateHistory)
     } catch (err) {
-      // return helper.response(res, 404, 'Bad request', err)
-      console.log(err);
+      return helper.response(res, 404, 'Bad request', err)
     }
   },
 };
