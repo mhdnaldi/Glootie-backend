@@ -1,9 +1,9 @@
 const connection = require('../config/mysql')
 
 module.exports = {
-  getMenuItem: (limit, offset) => {
+  getMenuItem: (limit, offset, sort) => {
     return new Promise((resolve, reject) => {
-      connection.query(`SELECT * FROM menu_items LIMIT ? OFFSET ?`,[limit,offset], (err, data) => {
+      connection.query(`SELECT * FROM menu_items ORDER BY menu_price ${sort} LIMIT ? OFFSET ? `,[limit,offset], (err, data) => {
         !err ? resolve(data) :reject(new Error (err))
       })
     })

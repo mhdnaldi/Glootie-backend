@@ -28,12 +28,11 @@ let getNextPage = (page, currentQuery, totalPage) => {
   }
 }
 
-// SORT DESC
 
 
 module.exports = {
   getMenuItem: async(req, res) => {
-    let {page, limit} = req.query
+    let {page, limit, price} = req.query
     page = parseInt(page)
     limit = parseInt(limit)
     let totalData = await getMenuCount()
@@ -42,21 +41,48 @@ module.exports = {
 
     let prevPage = getPrevPage(page, req.query)
     let nextPage = getNextPage(page, req.query, totalPage)
+   
+    // sort by price
+    let newPrice = ''
+    let sortPrice = () => {
+      if(price === 'low') {
+        newPrice += 'ASC'
+      } else if (price === 'high') {
+        newPrice += 'DESC'
+      } else {
+        newPrice += 'ASC'
+      }
+      return newPrice
+    }
+    let sortPrices = sortPrice()
+    
+      let priceSortBy = ''
+      if(sortPrices === 'ASC') {
+        priceSortBy += 'Low to high'
+      } else if(sortPrices === 'DESC') {
+        priceSortBy += 'High to low'
+      } else {
+        priceSortBy += 'Low to high'
+      }
+ 
+    // ----------------------------
 
     const pageInfo = {
       totalData,
       page,
       limit,
       totalPage,
+      priceSortBy,
       prevPage: prevPage && `http://localhost:3000/menu_items?${prevPage}`,
       nextPage: nextPage && `http://localhost:3000/menu_items?${nextPage}`
     }
 
+    
     try {
-      const result = await getMenuItem(limit, offset)
-      console.log(result)
+      const result = await getMenuItem(limit, offset, sortPrices)
+      // console.log(result)
       return helper.response(res, 200, 'Data found', result, pageInfo)
-      // console.log(pageInfo);
+      console.log(pageInfo);
     } catch(err) {
       return helper.response(res, 404, 'Bad Request', err)
     }
