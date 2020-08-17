@@ -6,7 +6,6 @@ router.get('/', getMenuItem)
 // id menu_items
 router.get('/:id', getMenuId)
 
-
 router.post('/', postMenu)
 
 router.patch('/:id', patchMenu)
