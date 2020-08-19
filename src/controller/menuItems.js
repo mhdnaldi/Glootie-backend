@@ -5,6 +5,7 @@ const {
   patchMenu,
   deleteItem,
   getMenuCount,
+  searchItemByName,
 } = require("../model/menuItems");
 
 const { getCategoryId } = require("../model/category");
@@ -37,7 +38,8 @@ let getNextPage = (page, currentQuery, totalPage) => {
 
 module.exports = {
   getMenuItem: async (req, res) => {
-    let { page, limit, price, search } = req.query;
+    console.log('a')
+    let { page, limit, sort, asc_desc } = req.query;
     page = parseInt(page);
     limit = parseInt(limit);
     let totalData = await getMenuCount();
@@ -47,60 +49,72 @@ module.exports = {
     let prevPage = getPrevPage(page, req.query);
     let nextPage = getNextPage(page, req.query, totalPage);
 
-    // sort by price
-    let newPrice = "";
-    let sortPrice = () => {
-      if (price === "low") {
-        newPrice += "ASC";
-      } else if (price === "high") {
-        newPrice += "DESC";
+    // sort logic
+    let str = sort;
+    let sortBy = () => {
+      let string = "";
+      let ascOrDesc = "";
+
+      if (asc_desc === "asc") {
+        ascOrDesc = ` ASC`;
+      } else if (asc_desc === "desc") {
+        ascOrDesc = ` DESC`;
       } else {
-        newPrice += "ASC";
+        ascOrDesc = ` ASC`;
       }
-      return newPrice;
+
+      switch (str) {
+        case "name":
+          string = `ORDER BY menu_name ${ascOrDesc}`;
+          break;
+        case "price":
+          string = `ORDER BY menu_price ${ascOrDesc}`;
+          break;
+        case "category":
+          string = `ORDER BY category_id ${ascOrDesc}`;
+          break;
+        case "created_at":
+          string = `ORDER BY created_at ${ascOrDesc}`;
+          break;
+        default:
+          string = "";
+          break;
+      }
+      return string;
     };
-    let sortPrices = sortPrice();
-
-    let priceSortBy = "";
-    if (sortPrices === "ASC") {
-      priceSortBy += "Low to high";
-    } else if (sortPrices === "DESC") {
-      priceSortBy += "High to low";
-    } else {
-      priceSortBy += "Low to high";
-    }
-
+    let sorting = sortBy();
     // ----------------------------
-    // search name logic
-    let str = search
-    let searchMenu = () => {
-    let like = ''
-      return like = `LIKE '${str}%'`
-    }
-    let like = searchMenu();
-     let searchByName = str
-    // -------------------
-   
 
     const pageInfo = {
       totalData,
       page,
       limit,
       totalPage,
-      priceSortBy,
-      searchByName,
       prevPage: prevPage && `http://localhost:3000/menu_items?${prevPage}`,
       nextPage: nextPage && `http://localhost:3000/menu_items?${nextPage}`,
     };
     try {
-    
-    // let like = null
-      const result = await getMenuItem(limit, offset, sortPrices, like);
-      // console.log(result)
+      const result = await getMenuItem(limit, offset, sorting);
       return helper.response(res, 200, "Data found", result, pageInfo);
     } catch (err) {
       console.log(err);
-      return helper.response(res, 404, 'Bad Request', err)
+      return helper.response(res, 404, "Bad Request", err);
+    }
+  },
+  getItemByName: async (req, res) => {
+    let{name} = req.params
+    console.log(req.params)
+    let str = name
+    let searchMenu = () => {
+    let like = ``
+      return like = `LIKE '%${str}%'`
+    }
+    let search = searchMenu();
+    try {
+      let result = await searchItemByName(search);
+      console.log(result);
+    } catch (err) {
+      console.log(err);
     }
   },
   getMenuId: async (req, res) => {

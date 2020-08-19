@@ -61,6 +61,7 @@ module.exports = {
         };
 
         let orderResult = await postOrder(setDataOrder);
+        console.log(orderResult);
 
         const totalPrice = await sumTotal(historyId);
 
@@ -70,9 +71,9 @@ module.exports = {
           history_subtotal: totalPrice + tax,
         };
         let updateHistory = await patchHistory(setUpdateHistory, historyId);
-        let data = await getDataOrder(historyId)
+        let allOrder = await getDataOrder(historyId)
         const pageInfo = {
-          data,
+          allOrder,
           totalPrice,
           tax,
           updateHistory

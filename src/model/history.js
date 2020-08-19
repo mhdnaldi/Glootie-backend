@@ -35,7 +35,7 @@ module.exports = {
       connection.query(`UPDATE history SET ? WHERE history_id = ?`, [setData, id], (err, data) => {
        if(!err) {
         const newResult = {
-          id: id,
+          history_id: id,
           ...setData
         } 
         resolve(newResult)

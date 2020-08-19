@@ -5,11 +5,9 @@ module.exports = {
   getCategoryItem: async(req, res) => {
     try {
       const result = await getCategoryItem()
-      console.log(result);
-      res.send(result)
+      return helper.response(res,200, 'Data found', result)
     } catch(err) {
-      console.log(err);
-      res.send(err)
+      return helper.response(res, 404, 'Bad request', err)
     }
   },
   getCategoryId: async(req, res) => {
@@ -17,14 +15,12 @@ module.exports = {
       const {id} = req.params
       const result = await getCategoryId(id)
       if(result.length > 0) {
-        console.log(result);
-        res.send(result)
+        return helper.response(res,200, `Data with id:${id} found`, result)
       } else {
-        console.log(`Category with id:${id} not found!`);
-        res.send(`Category with id:${id} not found!`)
+        return helper.response(res,404, `Data with id:${id} not found`)
       }
     } catch(err) {
-      console.log(err);
+      return helper.response(res, 404, 'Bad request', err)
     }
   },
   postCategory: async(req, res) => {
@@ -38,6 +34,7 @@ module.exports = {
       return helper.response(res, 200, 'Data created', result)
     } catch(err) {
       return helper.response(res, 404, 'Bad Request', err)
+      console.log(err);
     }
   },
   patchCategory: async(req, res) => {
