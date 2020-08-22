@@ -38,7 +38,7 @@ let getNextPage = (page, currentQuery, totalPage) => {
 
 module.exports = {
   getMenuItem: async (req, res) => {
-    console.log('a')
+    console.log("a");
     let { page, limit, sort, asc_desc } = req.query;
     page = parseInt(page);
     limit = parseInt(limit);
@@ -102,17 +102,13 @@ module.exports = {
     }
   },
   getItemByName: async (req, res) => {
-    let{name} = req.params
-    console.log(req.params)
-    let str = name
-    let searchMenu = () => {
-    let like = ``
-      return like = `LIKE '%${str}%'`
-    }
-    let search = searchMenu();
+    let { name } = req.query;
+    str = `LIKE '%${name}%'`;
+
     try {
-      let result = await searchItemByName(search);
+      let result = await searchItemByName(str);
       console.log(result);
+      res.send(result);
     } catch (err) {
       console.log(err);
     }
@@ -154,7 +150,7 @@ module.exports = {
         menu_status,
       };
       const result = await postMenu(setData);
-      return helper.response(res, 200, "success add product", result);
+      return helper.response(res, 200, "Success add new items", result);
     } catch (err) {
       return helper.response(res, 404, "Bad request", err);
     }
@@ -173,7 +169,7 @@ module.exports = {
       const checkId = await getMenuId(id);
       if (checkId.length > 0) {
         const result = await patchMenu(setData, id);
-        return helper.response(res, 200, "success edit product", result);
+        return helper.response(res, 200, "Success edit items", result);
       } else {
         return helper.response(res, 404, "Data not found");
       }

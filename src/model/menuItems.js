@@ -34,12 +34,15 @@ module.exports = {
     });
   },
   searchItemByName: (search) => {
-    return new Promise ((resolve, reject) => {
-      connection.query(`SELECT * FROM menu_items WHERE menu_name ${search}`, (err, data) => {
-        console.log(err);
-        !err ? resolve(data):reject(new Error(err))
-      })
-    })
+    return new Promise((resolve, reject) => {
+      connection.query(
+        `SELECT * FROM menu_items WHERE menu_name ${search}`,
+        (err, data) => {
+          // console.log(err);
+          !err ? resolve(data) : reject(new Error(err));
+        }
+      );
+    });
   },
   postMenu: (setData) => {
     return new Promise((resolve, reject) => {
