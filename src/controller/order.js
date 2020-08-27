@@ -3,7 +3,7 @@ const {
   getOrderId,
   postOrder,
   sumTotal,
-  getDataOrder
+  getDataOrder,
 } = require("../model/order");
 const { postHistory, patchHistory } = require("../model/history");
 const { getMenuId } = require("../model/menuItems");
@@ -47,8 +47,8 @@ module.exports = {
       };
       let result = await postHistory(setData);
       let historyId = result.history_id;
-      let orders = req.body.orders;
-      let newOrders = orders.map(async (value) => {
+      let orders = req.body;
+      orders.map(async (value) => {
         let menuprice = await getMenuId(value.menu_id);
         menuprice = menuprice[0].menu_price;
 
@@ -61,27 +61,27 @@ module.exports = {
         };
 
         let orderResult = await postOrder(setDataOrder);
-        console.log(orderResult);
 
         const totalPrice = await sumTotal(historyId);
 
-        let tax = totalPrice * 0.10;
+        let tax = totalPrice * 0.1;
         let setUpdateHistory = {
           invoice: Math.floor(Math.random() * 1000000 + 1000000),
           history_subtotal: totalPrice + tax,
         };
         let updateHistory = await patchHistory(setUpdateHistory, historyId);
-        let allOrder = await getDataOrder(historyId)
+        let allOrder = await getDataOrder(historyId);
         const pageInfo = {
           allOrder,
           totalPrice,
           tax,
-          updateHistory
-        }
+          updateHistory,
+        };
+        console.log(req.body);
         return helper.response(res, 200, "Success", pageInfo);
       });
     } catch (err) {
-      return helper.response(res, 404, 'Bad request', err)
+      return helper.response(res, 404, "Bad request", err);
     }
   },
 };
