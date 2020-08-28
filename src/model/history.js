@@ -52,12 +52,25 @@ module.exports = {
       );
     });
   },
-  getWeekHistory: () => {
+  // ------------------------------------
+  getTodayTotal: () => {
     return new Promise((resolve, reject) => {
       connection.query(
-        `SELECT * FROM history WHERE YEARWEEK(created_at) = YEARWEEK(NOW())`,
+        "SELECT sum(history_subtotal) as total FROM history WHERE DAY(created_at) = DAY(NOW())",
         (err, data) => {
-          !err ? resolve(data) : reject(err);
+          !err ? resolve(data[0].total) : reject(new Error(err));
+        }
+      );
+    });
+  },
+  // ---------------------------------------
+  getDataOrder: (id) => {
+    return new Promise((resolve, reject) => {
+      connection.query(
+        `SELECT * FROM orders JOIN menu_items ON orders.menu_id = menu_items.menu_id WHERE history_id = ?`,
+        id,
+        (err, data) => {
+          !err ? resolve(data) : reject(new Error(err));
         }
       );
     });

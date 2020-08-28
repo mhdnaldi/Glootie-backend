@@ -3,13 +3,13 @@ const {
   getAllHistory,
   getHistoryId,
   postHistory,
-  weekHistory,
+  getTotalToday,
 } = require("../controller/history");
 const { postOrder } = require("../controller/order");
 
 router.get("/", getAllHistory);
 
-router.get("/week", weekHistory);
+router.get("/total-today", getTotalToday);
 
 router.get("/:id", getHistoryId);
 

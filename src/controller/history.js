@@ -2,14 +2,20 @@ const {
   getAllHistory,
   getHistoryId,
   postHistory,
-  getWeekHistory,
+  getDataOrder,
+  getTodayTotal,
 } = require("../model/history");
 const helper = require("../helper/helper");
+const { response } = require("../helper/helper");
 
 module.exports = {
   getAllHistory: async (req, res) => {
     try {
       const result = await getAllHistory();
+      for (let i = 0; i < result.length; i++) {
+        result[i].orders = await getDataOrder(result[i].history_id);
+      }
+      console.log(result);
       return helper.response(res, 201, "Data found", result);
     } catch (err) {
       return helper.response(res, 404, "Bad request", err);
@@ -47,12 +53,12 @@ module.exports = {
       return helper.response(res, 404, "Bad request", err);
     }
   },
-  weekHistory: async (req, res) => {
+  getTotalToday: async (req, res) => {
     try {
-      const result = await getWeekHistory();
-      return helper.response(res, 201, `Today's data found`, result);
+      const result = await getTodayTotal();
+      return helper.response(res, 201, `Today's income found`, result);
     } catch (err) {
-      return helper.response(res, 404, `Bad request`, err);
+      return helper.response(res, 404, "Bad request", err);
     }
   },
 };

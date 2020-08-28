@@ -4,6 +4,7 @@ const {
   postOrder,
   sumTotal,
   getDataOrder,
+  totalOrderThisWeek,
 } = require("../model/order");
 const { postHistory, patchHistory } = require("../model/history");
 const { getMenuId } = require("../model/menuItems");
@@ -80,6 +81,15 @@ module.exports = {
         console.log(req.body);
         return helper.response(res, 200, "Success", pageInfo);
       });
+    } catch (err) {
+      return helper.response(res, 404, "Bad request", err);
+    }
+  },
+  getOrderThisWeek: async (req, res) => {
+    try {
+      const result = await totalOrderThisWeek();
+      console.log(result);
+      return helper.response(res, 200, "Success", result);
     } catch (err) {
       return helper.response(res, 404, "Bad request", err);
     }
