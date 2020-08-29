@@ -56,6 +56,7 @@ module.exports = {
       );
     });
   },
+  // -------------------------------- TOTAL ORDERS / WEEK
   totalOrderThisWeek: () => {
     return new Promise((resolve, reject) => {
       connection.query(

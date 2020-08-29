@@ -4,6 +4,9 @@ const {
   postHistory,
   getDataOrder,
   getTodayTotal,
+  getYearlyIncome,
+  recentOrders,
+  chart,
 } = require("../model/history");
 const helper = require("../helper/helper");
 const { response } = require("../helper/helper");
@@ -53,11 +56,43 @@ module.exports = {
       return helper.response(res, 404, "Bad request", err);
     }
   },
+  // CARD TODAY INCOME
   getTotalToday: async (req, res) => {
     try {
       const result = await getTodayTotal();
       return helper.response(res, 201, `Today's income found`, result);
     } catch (err) {
+      return helper.response(res, 404, "Bad request", err);
+    }
+  },
+  // CARD YEARLY INCOME
+  getTotalThisYear: async (req, res) => {
+    try {
+      const result = await getYearlyIncome();
+      return helper.response(res, 201, "Data found", result);
+    } catch (err) {
+      return helper.response(res, 404, "Bad request", err);
+    }
+  },
+  // CARD RECENT ORDERS
+  getRecentOrders: async (req, res) => {
+    try {
+      const result = await recentOrders();
+      for (let i = 0; i < result.length; i++) {
+        result[i].orders = await getDataOrder(result[i].history_id);
+      }
+      return helper.response(res, 201, "Data found", result);
+    } catch (err) {
+      return helper.response(res, 404, "Bad request", err);
+    }
+  },
+  // CHART KICK
+  chartKick: async (req, res) => {
+    try {
+      const result = await chart();
+      return helper.response(res, 201, "Data found", result);
+    } catch (err) {
+      // console.log(err);
       return helper.response(res, 404, "Bad request", err);
     }
   },
