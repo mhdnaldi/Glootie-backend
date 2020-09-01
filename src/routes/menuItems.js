@@ -1,17 +1,28 @@
-const router = require('express').Router()
-const {getMenuItem, getMenuId, postMenu, patchMenu, deleteItem, getItemByName} = require('../controller/menuItems')
-
+const router = require("express").Router();
+const {
+  getMenuItem,
+  getMenuId,
+  postMenu,
+  patchMenu,
+  deleteItem,
+  getItemByName,
+} = require("../controller/menuItems");
+const {
+  getMenuItemRedis,
+  getItemByNameRedis,
+  getMenuIdRedis,
+  clearDataRedis,
+} = require("../Middleware/redis");
 // data menu_items
-router.get('/', getMenuItem)
+router.get("/", getMenuItemRedis, getMenuItem);
 // id menu_items
-router.get('/search', getItemByName)
-router.get('/:id', getMenuId)
+router.get("/search", getItemByNameRedis, getItemByName);
+router.get("/:id", getMenuIdRedis, getMenuId);
 
+router.post("/", postMenu);
 
-router.post('/', postMenu)
+router.patch("/:id", clearDataRedis, patchMenu);
 
-router.patch('/:id', patchMenu)
+router.delete("/:id", deleteItem);
 
-router.delete('/:id', deleteItem)
-
-module.exports = router
+module.exports = router;

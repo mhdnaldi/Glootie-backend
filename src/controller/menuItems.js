@@ -8,9 +8,10 @@ const {
   searchItemByName,
 } = require("../model/menuItems");
 
-const { getCategoryId } = require("../model/category");
 const helper = require("../helper/helper");
 const qs = require("querystring");
+const redis = require("redis");
+const client = redis.createClient();
 
 let getPrevPage = (page, currentQuery) => {
   if (page > 1) {
@@ -38,7 +39,6 @@ let getNextPage = (page, currentQuery, totalPage) => {
 
 module.exports = {
   getMenuItem: async (req, res) => {
-    console.log("a");
     let { page, limit, sort, asc_desc } = req.query;
     page = parseInt(page);
     limit = parseInt(limit);
@@ -95,6 +95,12 @@ module.exports = {
     };
     try {
       const result = await getMenuItem(limit, offset, sorting);
+      // redis
+      client.setex(
+        `getmenu:${JSON.stringify(req.query)}`,
+        3600,
+        JSON.stringify(result)
+      );
       return helper.response(res, 200, "Data found", result, pageInfo);
     } catch (err) {
       console.log(err);
@@ -107,7 +113,12 @@ module.exports = {
 
     try {
       let result = await searchItemByName(str);
-      console.log(result);
+      // redis
+      client.setex(
+        `searchname:${JSON.stringify(req.query)}`,
+        3600,
+        JSON.stringify(result)
+      );
       res.send(result);
     } catch (err) {
       console.log(err);
@@ -117,6 +128,11 @@ module.exports = {
     try {
       const { id } = req.params;
       const result = await getMenuId(id);
+      client.setex(
+        `getmenuid:${JSON.stringify(req.params)}`,
+        3600,
+        JSON.stringify(result)
+      );
       if (result.length > 0) {
         return helper.response(res, 201, "Data found", result);
       } else {

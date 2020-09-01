@@ -9,16 +9,18 @@ const {
   chart,
 } = require("../model/history");
 const helper = require("../helper/helper");
-const { response } = require("../helper/helper");
+
+const redis = require("redis");
+const client = redis.createClient();
 
 module.exports = {
   getAllHistory: async (req, res) => {
     try {
       const result = await getAllHistory();
+      client.setex("gethistory", 3600, JSON.stringify(result));
       for (let i = 0; i < result.length; i++) {
         result[i].orders = await getDataOrder(result[i].history_id);
       }
-      console.log(result);
       return helper.response(res, 201, "Data found", result);
     } catch (err) {
       return helper.response(res, 404, "Bad request", err);
@@ -28,6 +30,11 @@ module.exports = {
     try {
       const { id } = req.params;
       const result = await getHistoryId(id);
+      client.setex(
+        `gethistoryid:${JSON.stringify(req.params)}`,
+        3600,
+        JSON.stringify(result)
+      );
       if (result.length > 0) {
         return helper.response(res, 201, `Data with id:${id} found`, result);
       } else {
@@ -60,6 +67,7 @@ module.exports = {
   getTotalToday: async (req, res) => {
     try {
       const result = await getTodayTotal();
+      client.setex("gettodaytotal", 3600, JSON.stringify(result));
       return helper.response(res, 201, `Today's income found`, result);
     } catch (err) {
       return helper.response(res, 404, "Bad request", err);
@@ -69,6 +77,7 @@ module.exports = {
   getTotalThisYear: async (req, res) => {
     try {
       const result = await getYearlyIncome();
+      client.setex("totalthisyear", 3600, JSON.stringify(result));
       return helper.response(res, 201, "Data found", result);
     } catch (err) {
       return helper.response(res, 404, "Bad request", err);
@@ -78,6 +87,7 @@ module.exports = {
   getRecentOrders: async (req, res) => {
     try {
       const result = await recentOrders();
+      client.setex("recentorder", 3600, JSON.stringify(result));
       for (let i = 0; i < result.length; i++) {
         result[i].orders = await getDataOrder(result[i].history_id);
       }
@@ -90,6 +100,7 @@ module.exports = {
   chartKick: async (req, res) => {
     try {
       const result = await chart();
+      client.setex("chart", 3600, JSON.stringify(result));
       return helper.response(res, 201, "Data found", result);
     } catch (err) {
       // console.log(err);

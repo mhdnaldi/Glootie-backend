@@ -9,21 +9,31 @@ const {
   chartKick,
 } = require("../controller/history");
 const { postOrder } = require("../controller/order");
+// redis
+const {
+  getAllHistoryRedis,
+  getHistoryIdRedis,
+  getTodayTotalRedis,
+  getTotalThisYearRedis,
+  clearDataRedis,
+  getRecentOrdersRedis,
+  chartKickRedis,
+} = require("../Middleware/redis");
 
-router.get("/", getAllHistory);
+router.get("/", getAllHistoryRedis, getHistoryIdRedis, getTodayTotalRedis);
 
-router.get("/chart", chartKick);
+router.get("/chart", chartKickRedis, chartKick);
 
-router.get("/total-today", getTotalToday);
+router.get("/total-today", getTodayTotalRedis, getTotalToday);
 
-router.get("/total-yearly", getTotalThisYear);
+router.get("/total-yearly", getTotalThisYearRedis, getTotalThisYear);
 
-router.get("/recent-orders", getRecentOrders);
+router.get("/recent-orders", getRecentOrdersRedis, getRecentOrders);
 
-router.get("/:id", getHistoryId);
+router.get("/:id", getHistoryIdRedis, getHistoryId);
 
 router.post("/", postHistory);
 
-router.patch("/:id", postOrder);
+router.patch("/:id", clearDataRedis, postOrder);
 
 module.exports = router;

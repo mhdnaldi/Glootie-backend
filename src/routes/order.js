@@ -6,11 +6,18 @@ const {
   getOrderThisWeek,
 } = require("../controller/order");
 
-router.get("/", getAllOrder);
+// redis
+const {
+  getAllOrderRedis,
+  getOrderIdRedist,
+  getOrderThisWeekRedist,
+} = require("../Middleware/redis");
 
-router.get("/this-week-order", getOrderThisWeek);
+router.get("/", getAllOrderRedis, getAllOrder);
 
-router.get("/:id", getOrderId);
+router.get("/this-week-order", getOrderThisWeekRedist, getOrderThisWeek);
+
+router.get("/:id", getOrderIdRedist, getOrderId);
 
 router.post("/", postOrder);
 

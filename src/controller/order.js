@@ -9,13 +9,14 @@ const {
 const { postHistory, patchHistory } = require("../model/history");
 const { getMenuId } = require("../model/menuItems");
 const helper = require("../helper/helper");
-const order = require("../model/order");
-const { response } = require("../helper/helper");
+const redis = require("redis");
+const client = redis.createClient();
 
 module.exports = {
   getAllOrder: async (req, res) => {
     try {
       const result = await getAllOrder();
+      client.setex("getorders", 3600, JSON.stringify(result));
       return helper.response(res, 201, "Data found", result);
     } catch (err) {
       return helper.response(res, 404, "Bad request", err);
@@ -25,6 +26,11 @@ module.exports = {
     try {
       const { id } = req.params;
       const result = await getOrderId(id);
+      client.setex(
+        `getorderid:${JSON.stringify(req.params)}`,
+        3600,
+        JSON.stringify(result)
+      );
       if (result.length > 0) {
         return helper.response(res, 201, `Data with id:${id} found`, result);
       } else {
@@ -88,6 +94,7 @@ module.exports = {
   getOrderThisWeek: async (req, res) => {
     try {
       const result = await totalOrderThisWeek();
+      client.setex("getordersweek", 3600, JSON.stringify(result));
       console.log(result);
       return helper.response(res, 200, "Success", result);
     } catch (err) {
