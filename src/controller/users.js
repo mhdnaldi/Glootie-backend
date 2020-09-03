@@ -69,7 +69,9 @@ module.exports = {
           user_role,
           user_status,
         };
-        const token = jwt.sign(payload, "password", { expiresIn: "24h" });
+        const token = jwt.sign(payload, process.env.JWT_KEY, {
+          expiresIn: "24h",
+        });
         payload = { ...payload, token };
         return helper.response(res, 200, "Login Succes!", payload);
       } else {

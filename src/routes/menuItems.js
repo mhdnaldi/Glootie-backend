@@ -40,11 +40,14 @@ const {
   clearDataRedis,
 } = require("../Middleware/redis");
 
-router.get("/", getMenuItemRedis, getMenuItem);
-router.get("/search", getItemByNameRedis, getItemByName);
-router.get("/:id", getMenuIdRedis, getMenuId);
-router.post("/", upload, postMenu);
-router.patch("/:id", upload, clearDataRedis, patchMenu);
-router.delete("/:id", clearDataRedis, deleteItem);
+// AUTH
+const { authorizationAll, authorizationAdmin } = require("../Middleware/auth");
+
+router.get("/", authorizationAll, getMenuItemRedis, getMenuItem);
+router.get("/search", authorizationAll, getItemByNameRedis, getItemByName);
+router.get("/:id", authorizationAll, getMenuIdRedis, getMenuId);
+router.post("/", authorizationAdmin, upload, postMenu);
+router.patch("/:id", authorizationAdmin, upload, clearDataRedis, patchMenu);
+router.delete("/:id", authorizationAdmin, clearDataRedis, deleteItem);
 
 module.exports = router;

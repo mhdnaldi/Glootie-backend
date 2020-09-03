@@ -100,7 +100,6 @@ module.exports = {
         result,
         pageInfo,
       };
-      console.log(newResult);
       client.setex(
         `getmenu:${JSON.stringify(req.query)}`,
         3600,
@@ -226,6 +225,7 @@ module.exports = {
         }
       }
     } catch (err) {
+      console.log(err);
       return helper.response(res, 404, "Bad Request", err);
     }
   },
