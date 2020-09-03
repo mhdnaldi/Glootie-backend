@@ -12,6 +12,7 @@ module.exports = {
   // MENU
   getMenuItemRedis: (req, res, next) => {
     const { page, limit, sort, asc_desc } = req.query;
+    console.log(req.query);
     client.get(`getmenu:${JSON.stringify(req.query)}`, (err, data) => {
       if (!err && data != null) {
         return helper.response(res, 200, JSON.parse(data));

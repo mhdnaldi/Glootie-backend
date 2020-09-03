@@ -96,11 +96,15 @@ module.exports = {
     };
     try {
       const result = await getMenuItem(limit, offset, sorting);
-      // redis
+      const newResult = {
+        result,
+        pageInfo,
+      };
+      console.log(newResult);
       client.setex(
         `getmenu:${JSON.stringify(req.query)}`,
         3600,
-        JSON.stringify(result)
+        JSON.stringify(newResult)
       );
       return helper.response(res, 200, "Data found", result, pageInfo);
     } catch (err) {
@@ -129,12 +133,13 @@ module.exports = {
     try {
       const { id } = req.params;
       const result = await getMenuId(id);
-      client.setex(
-        `getmenuid:${JSON.stringify(req.params)}`,
-        3600,
-        JSON.stringify(result)
-      );
+
       if (result.length > 0) {
+        client.setex(
+          `getmenuid:${JSON.stringify(req.params)}`,
+          3600,
+          JSON.stringify(result)
+        );
         return helper.response(res, 201, "Data found", result);
       } else {
         return helper.response(res, 404, `Data with id:${id} not found!`);

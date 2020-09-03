@@ -26,12 +26,12 @@ module.exports = {
     try {
       const { id } = req.params;
       const result = await getOrderId(id);
-      client.setex(
-        `getorderid:${JSON.stringify(req.params)}`,
-        3600,
-        JSON.stringify(result)
-      );
       if (result.length > 0) {
+        client.setex(
+          `getorderid:${JSON.stringify(req.params)}`,
+          3600,
+          JSON.stringify(result)
+        );
         return helper.response(res, 201, `Data with id:${id} found`, result);
       } else {
         return helper.response(

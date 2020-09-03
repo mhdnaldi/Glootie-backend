@@ -24,12 +24,12 @@ module.exports = {
     try {
       const { id } = req.params;
       const result = await getCategoryId(id);
-      client.setex(
-        `getcategoryid:${JSON.stringify(req.params)}`,
-        3600,
-        JSON.stringify(result)
-      );
       if (result.length > 0) {
+        client.setex(
+          `getcategoryid:${JSON.stringify(req.params)}`,
+          3600,
+          JSON.stringify(result)
+        );
         return helper.response(res, 200, `Data with id:${id} found`, result);
       } else {
         return helper.response(res, 404, `Data with id:${id} not found`);

@@ -32,6 +32,7 @@ const {
   deleteItem,
   getItemByName,
 } = require("../controller/menuItems");
+
 const {
   getMenuItemRedis,
   getItemByNameRedis,
@@ -39,16 +40,11 @@ const {
   clearDataRedis,
 } = require("../Middleware/redis");
 
-// data menu_items
 router.get("/", getMenuItemRedis, getMenuItem);
-// id menu_items
 router.get("/search", getItemByNameRedis, getItemByName);
 router.get("/:id", getMenuIdRedis, getMenuId);
-
 router.post("/", upload, postMenu);
-
 router.patch("/:id", upload, clearDataRedis, patchMenu);
-
-router.delete("/:id", deleteItem);
+router.delete("/:id", clearDataRedis, deleteItem);
 
 module.exports = router;

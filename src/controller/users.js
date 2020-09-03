@@ -7,26 +7,31 @@ module.exports = {
   registerUser: async (req, res) => {
     const { user_email, user_password, user_name } = req.body;
 
-    const salt = bcrypt.genSaltSync(10);
-    const hash = bcrypt.hashSync(user_password, salt); //encrypt password
-
-    const setData = {
-      user_email,
-      user_password: hash,
-      user_name,
-      user_role: 2,
-      user_status: 0,
-      updated_at: new Date(),
-    };
     try {
-      //  KONDISI JIKA EMAIL SAMA
-      const getUserEmail = await getAllUser();
-      const getEmail = getUserEmail.map((value) => value.user_email);
-      if (getEmail.includes(user_email)) {
-        return helper.response(res, 404, "This email was already registered");
+      // KONDISI PASSWORD => 8
+      if (user_password.length < 8) {
+        return helper.response(res, 404, "Password length minimum 8 word");
       } else {
-        const result = await registerUser(setData);
-        return helper.response(res, 200, "Register success", result);
+        const salt = bcrypt.genSaltSync(10);
+        const hash = bcrypt.hashSync(user_password, salt); //encrypt password
+
+        const setData = {
+          user_email,
+          user_password: hash,
+          user_name,
+          user_role: 2,
+          user_status: 0,
+          updated_at: new Date(),
+        };
+        //  KONDISI JIKA EMAIL SAMA
+        const getUserEmail = await getAllUser();
+        const getEmail = getUserEmail.map((value) => value.user_email);
+        if (getEmail.includes(user_email)) {
+          return helper.response(res, 404, "This email was already registered");
+        } else {
+          const result = await registerUser(setData);
+          return helper.response(res, 200, "Register success", result);
+        }
       }
     } catch (err) {
       console.log(err);
