@@ -11,10 +11,9 @@ module.exports = {
   },
   // MENU
   getMenuItemRedis: (req, res, next) => {
-    const { page, limit, sort, asc_desc } = req.query;
     client.get(`getmenu:${JSON.stringify(req.query)}`, (err, data) => {
       if (!err && data != null) {
-        return helper.response(res, 200, JSON.parse(data));
+        return helper.response(res, 200, "Success get data", JSON.parse(data));
       } else {
         console.log("Data not available");
         next();
@@ -22,10 +21,9 @@ module.exports = {
     });
   },
   getItemByNameRedis: (req, res, next) => {
-    const { name } = req.query;
     client.get(`searchname:${JSON.stringify(req.query)}`, (err, data) => {
       if (!err && data != null) {
-        return helper.response(res, 200, JSON.parse(data));
+        return helper.response(res, 200, "Success get data", JSON.parse(data));
       } else {
         console.log("Data not available");
         next();
@@ -33,10 +31,9 @@ module.exports = {
     });
   },
   getMenuIdRedis: (req, res, next) => {
-    const { id } = req.params;
     client.get(`getmenuid:${JSON.stringify(req.params)}`, (err, data) => {
       if (!err && data != null) {
-        return helper.response(res, 200, "Data is ready", JSON.parse(data));
+        return helper.response(res, 200, "Success get data", JSON.parse(data));
       } else {
         console.log("Data not available");
         next();
@@ -48,7 +45,7 @@ module.exports = {
   getCategoryItemRedis: (req, res, next) => {
     client.get("getcategoryitem", (err, data) => {
       if (!err && data != null) {
-        return helper.response(res, 200, "Data is ready", JSON.parse(data));
+        return helper.response(res, 200, "Success get data", JSON.parse(data));
       } else {
         console.log("Data not found");
         next();
@@ -56,10 +53,9 @@ module.exports = {
     });
   },
   getCategoryIdRedis: (req, res, next) => {
-    const { id } = req.params;
     client.get(`getcategoryid:${JSON.stringify(req.params)}`, (err, data) => {
       if (!err && data != null) {
-        return helper.response(res, 200, "Data is ready", JSON.parse(data));
+        return helper.response(res, 200, "Success get data", JSON.parse(data));
       } else {
         console.log("Data not found");
         next();
@@ -70,7 +66,7 @@ module.exports = {
   getAllHistoryRedis: (req, res, next) => {
     client.get("gethistory", (err, data) => {
       if (!err && data != null) {
-        return helper.response(res, 200, "Data is ready", JSON.parse(data));
+        return helper.response(res, 200, "Success get data", JSON.parse(data));
       } else {
         console.log("Data not found");
         next();
@@ -78,10 +74,9 @@ module.exports = {
     });
   },
   getHistoryIdRedis: (req, res, next) => {
-    const { id } = req.params;
     client.get(`gethistoryid:${JSON.stringify(req.params)}`, (err, data) => {
       if (!err && data != null) {
-        return helper.response(res, 200, "Data is ready", JSON.parse(data));
+        return helper.response(res, 200, "Success get data", JSON.parse(data));
       } else {
         console.log("Data not ready");
         next();
@@ -91,7 +86,7 @@ module.exports = {
   getTodayTotalRedis: (req, res, next) => {
     client.get("gettodaytotal", (err, data) => {
       if (!err && data != null) {
-        return helper.response(res, 200, "Data is ready", JSON.parse(data));
+        return helper.response(res, 200, "Success get data", JSON.parse(data));
       } else {
         console.log("Data not found");
         next();
@@ -101,7 +96,7 @@ module.exports = {
   getTotalThisYearRedis: (req, res, next) => {
     client.get("totalthisyear", (err, data) => {
       if (!err && data != null) {
-        return helper.response(res, 200, "Data is ready", JSON.parse(data));
+        return helper.response(res, 200, "Success get data", JSON.parse(data));
       } else {
         console.log("Data not found");
         next();
@@ -111,7 +106,7 @@ module.exports = {
   getRecentOrdersRedis: (req, res, data) => {
     client.get("recentorder", (err, data) => {
       if (!err && data != null) {
-        return helper.response(res, 200, "Data is ready", JSON.parse(data));
+        return helper.response(res, 200, "Success get data", JSON.parse(data));
       } else {
         console.log("Data not found");
         next;
@@ -121,7 +116,7 @@ module.exports = {
   chartKickRedis: (req, res, next) => {
     client.get("chart", (err, data) => {
       if (!err && data != null) {
-        return helper.response(res, 200, "Data is ready", JSON.parse(data));
+        return helper.response(res, 200, "Success get data", JSON.parse(data));
       } else {
         console.log("Data not found");
         next();
@@ -132,7 +127,7 @@ module.exports = {
   getAllOrderRedis: (req, res, next) => {
     client.get("getorders", (err, data) => {
       if (!err && data != null) {
-        return helper.response(res, 200, "Data is ready", JSON.parse(data));
+        return helper.response(res, 200, "Success get data", JSON.parse(data));
       } else {
         console.log("Data not found");
         next();
@@ -140,10 +135,9 @@ module.exports = {
     });
   },
   getOrderIdRedist: (req, res, next) => {
-    const { id } = req.params;
     client.get(`getorderid:${JSON.stringify(req.params)}`, (err, data) => {
       if (!err && data != null) {
-        return helper.response(res, 200, "Data is ready", JSON.parse(data));
+        return helper.response(res, 200, "Success get data", JSON.parse(data));
       } else {
         console.log("Data not found");
         next();
@@ -151,10 +145,9 @@ module.exports = {
     });
   },
   getOrderThisWeekRedist: (req, res, next) => {
-    const { id } = req.params;
     client.get(`getordersweek`, (err, data) => {
       if (!err && data != null) {
-        return helper.response(res, 200, "Data is ready", JSON.parse(data));
+        return helper.response(res, 200, "Success get data", JSON.parse(data));
       } else {
         console.log("Data not found");
         next();
