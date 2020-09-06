@@ -122,17 +122,9 @@ module.exports = {
   },
   statusSetting: async (req, res) => {
     const { id } = req.params;
-    console.log("a");
-    const {
-      user_email,
-      user_password,
-      user_name,
-      user_role,
-      user_status,
-    } = req.body;
+    const { user_email, user_name, user_role, user_status } = req.body;
     const setData = {
       user_email,
-      user_password,
       user_name,
       user_role,
       user_status,
