@@ -89,23 +89,22 @@ module.exports = {
             user_status,
           } = checkDataUser[0];
           // KONDISI JIKA STATUS 0
-          // if(user_status === 0) {
-          //   return helper.response(res, 400, "User not active!");
-          // } else {
-
-          // }
-          let payload = {
-            user_id,
-            user_email,
-            user_name,
-            user_role,
-            user_status,
-          };
-          const token = jwt.sign(payload, process.env.JWT_KEY, {
-            expiresIn: "24h",
-          });
-          payload = { ...payload, token };
-          return helper.response(res, 200, "Login Succes!", payload);
+          if (user_status === 0) {
+            return helper.response(res, 400, "This user is not active!");
+          } else {
+            let payload = {
+              user_id,
+              user_email,
+              user_name,
+              user_role,
+              user_status,
+            };
+            const token = jwt.sign(payload, process.env.JWT_KEY, {
+              expiresIn: "24h",
+            });
+            payload = { ...payload, token };
+            return helper.response(res, 200, "Login Succes!", payload);
+          }
         } else {
           return helper.response(res, 400, "Wrong password!");
         }
@@ -122,25 +121,39 @@ module.exports = {
   },
   statusSetting: async (req, res) => {
     const { id } = req.params;
-    const { user_email, user_name, user_role, user_status } = req.body;
-    const setData = {
+    const {
       user_email,
       user_name,
+      user_password,
       user_role,
       user_status,
-    };
-    const checkId = await getUserId(id);
+    } = req.body;
+
     try {
-      if (checkId.length > 0) {
-        const result = await patchUser(setData, id);
-        return helper.response(
-          res,
-          200,
-          `Data with id:${id}, has changed`,
-          result
-        );
+      if (user_password.length < 8) {
+        return helper.response(res, 404, "Password length minimum 8 word");
       } else {
-        return helper.response(res, 404, `Data with id:${id}, not found`);
+        const salt = bcrypt.genSaltSync(10);
+        const hash = bcrypt.hashSync(user_password, salt); //encrypt password
+        const setData = {
+          user_email,
+          user_name,
+          user_password: hash,
+          user_role,
+          user_status,
+        };
+        const checkId = await getUserId(id);
+        if (checkId.length > 0) {
+          const result = await patchUser(setData, id);
+          return helper.response(
+            res,
+            200,
+            `Data with id:${id}, has changed`,
+            result
+          );
+        } else {
+          return helper.response(res, 404, `Data with id:${id}, not found`);
+        }
       }
     } catch (err) {
       console.log(err);

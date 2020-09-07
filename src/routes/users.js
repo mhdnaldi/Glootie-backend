@@ -9,9 +9,9 @@ const {
 
 const { authorizationAdmin } = require("../Middleware/auth");
 
-router.get("/", getUser);
+router.get("/", authorizationAdmin, getUser);
 router.get("/login", loginUser);
 router.post("/register", registerUser);
-router.get("/:id", getUserByid);
+router.get("/:id", authorizationAdmin, getUserByid);
 router.patch("/:id", authorizationAdmin, statusSetting);
 module.exports = router;

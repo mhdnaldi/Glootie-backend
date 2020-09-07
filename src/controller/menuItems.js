@@ -163,6 +163,7 @@ module.exports = {
   postMenu: async (req, res) => {
     try {
       const { category_id, menu_name, menu_price, menu_status } = req.body;
+      console.log(req.file);
       const setData = {
         category_id,
         menu_name,
@@ -171,18 +172,9 @@ module.exports = {
         created_at: new Date(),
         menu_status,
       };
-      if (req.file.size > 1000000) {
-        return helper.response(res, 404, "Max size is 1mb!");
-      } else if (
-        req.file.mimetype !== "image/jpg" &&
-        req.file.mimetype !== "image/jpeg" &&
-        req.file.mimetype !== "image/png"
-      ) {
-        return helper.response(res, 404, "Only Image files are  allowed");
-      } else {
-        const result = await postMenu(setData);
-        return helper.response(res, 200, "Success add new items", result);
-      }
+
+      const result = await postMenu(setData);
+      return helper.response(res, 200, "Success add new items", result);
     } catch (err) {
       return helper.response(res, 404, "Bad request", err);
     }
@@ -207,22 +199,13 @@ module.exports = {
         updated_at: new Date(),
         menu_status,
       };
-      if (req.file.size > 1000000) {
-        return helper.response(res, 404, "Max size is 1mb!");
-      } else if (
-        req.file.mimetype !== "image/jpg" &&
-        req.file.mimetype !== "image/jpeg" &&
-        req.file.mimetype !== "image/png"
-      ) {
-        return helper.response(res, 404, "Only Image files are  allowed");
+
+      const checkId = await getMenuId(id);
+      if (checkId.length > 0) {
+        const result = await patchMenu(setData, id);
+        return helper.response(res, 200, "Success edit items", result);
       } else {
-        const checkId = await getMenuId(id);
-        if (checkId.length > 0) {
-          const result = await patchMenu(setData, id);
-          return helper.response(res, 200, "Success edit items", result);
-        } else {
-          return helper.response(res, 404, "Data not found");
-        }
+        return helper.response(res, 404, "Data not found");
       }
     } catch (err) {
       console.log(err);
