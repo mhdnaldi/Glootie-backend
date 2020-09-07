@@ -22,7 +22,6 @@ module.exports = {
       );
     });
   },
-  // PAGINATION --------------------------------
   getMenuId: (id) => {
     return new Promise((resolve, reject) => {
       connection.query(

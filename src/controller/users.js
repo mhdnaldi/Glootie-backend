@@ -156,8 +156,7 @@ module.exports = {
         }
       }
     } catch (err) {
-      console.log(err);
-      // return helper.response(res, 404, "Bad request", err);
+      return helper.response(res, 404, "Bad request", err);
     }
   },
 };

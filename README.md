@@ -1,6 +1,6 @@
 <h1 align="center">Glootie Back-end RESTfull API</h1>
 
-#background_projek. [More about Express](https://en.wikipedia.org/wiki/Express.js)
+#RESTful API for Glootie SPA. [More about Express](https://en.wikipedia.org/wiki/Express.js)
 
 ## Built With
 
@@ -51,12 +51,11 @@ JWT_KEY=PASSWORD
 **2. POST**
 
 - `/menu` (Post product)
-  - `{ "category_id": 1, "menu_name": "Black Forest", "menu_price": 50000 , "menu_status" : 1 | 0, "menu_image":"img files"}`
+- `{ "category_id": 1, "menu_name": "Black Forest", "menu_price": 50000 , "menu_status" : 1 | 0, "menu_image":"img files"}`
 
 **3. PATCH**
 
 - `/menu/:id` (Update product by id)
-
 - `{ "category_id": 1, "menu_name": "Black Forest", "menu_price": 30000 , "menu_status" : 1 | 0, "menu_image":"img files"}`
 
 **4. DELETE**
@@ -73,12 +72,12 @@ JWT_KEY=PASSWORD
 **2. POST**
 
 - `/category` (Post category)
-  - `{ "category_name": "Foods", "category_status" : 1 | 0}`
+- `{ "category_name": "Foods", "category_status" : 1 | 0}`
 
 **3. PATCH**
 
 - `/category/:id` (Update category by id)
-  - `{ "category_name": "Foods", "category_status" : 1 | 0}`
+- `{ "category_name": "Foods", "category_status" : 1 | 0}`
 
 **4. DELETE**
 
@@ -95,7 +94,7 @@ JWT_KEY=PASSWORD
 **2. POST**
 
 - `/order` (Post orders)
-  - `[ { "menu_id": 4, "qty": 1 }, { "menu_id": 4, "qty": 1 } ]`
+- `[ { "menu_id": 4, "qty": 1 }, { "menu_id": 4, "qty": 1 } ]`
 
 ## End Point History
 
@@ -114,10 +113,11 @@ JWT_KEY=PASSWORD
 - `/users`(Get all users)
 - `/users/:id`(Get user by id)
 - `/users/login`(Get user by id)
-
-  - `{ "user_email": "@email", "user_password" : **** }`
+- `{ "user_email": "@email", "user_password" : **** }`
 
 - `/users/register` (Post Register)
-  - `{ "user_email": "@email", "user_password" : ****, "user_name": "username" }`
+- `{ "user_email": "@email", "user_password" : ****, "user_name": "username" }`
+
+Glootie Postman: https://web.postman.co/collections/12612781-dc0172db-e69e-4dfd-86bf-c2f9efbc9b60?version=latest&workspace=6aeb0fc4-0bd0-47ec-8b8c-737166f0807d
 
 ### After login don't forget to set token to authorization. with bearer token type!

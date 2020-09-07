@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Sep 06, 2020 at 09:36 AM
+-- Generation Time: Sep 07, 2020 at 07:05 AM
 -- Server version: 5.7.24
 -- PHP Version: 7.3.7
 
@@ -108,8 +108,6 @@ CREATE TABLE `menu_items` (
 --
 
 INSERT INTO `menu_items` (`menu_id`, `category_id`, `menu_name`, `menu_price`, `menu_image`, `created_at`, `updated_at`, `menu_status`) VALUES
-(4, 2, 'Espresso', 20000, '', '2020-08-14 14:43:00', '2020-08-14 14:42:59', 1),
-(6, 1, 'Chicken Katsu', 60000, '', '2020-08-17 05:29:24', '2020-08-17 05:29:23', 1),
 (7, 3, 'Chocorum', 28000, '', '2020-08-17 05:30:01', '2020-08-17 05:30:01', 1),
 (8, 2, 'Cappucino', 28000, '', '2020-08-17 05:30:17', '2020-08-17 05:30:17', 1),
 (9, 1, 'Salmon Truffle', 68000, '', '2020-08-17 05:30:49', '2020-08-17 05:30:48', 1),
@@ -129,7 +127,11 @@ INSERT INTO `menu_items` (`menu_id`, `category_id`, `menu_name`, `menu_price`, `
 (25, 1, 'Beef Burger', 28000, '', '2020-08-27 13:58:04', '2020-08-27 13:58:05', 1),
 (26, 1, 'Spaghetti Bolognaise', 30000, '', '2020-08-26 13:08:32', '2020-08-26 13:08:32', 1),
 (27, 1, 'Hot Dog', 20000, '', '2020-08-26 13:22:51', '2020-08-26 13:22:51', 1),
-(28, 2, 'Tuna Sandwich', 20000, '2020-09-06T09-12-58.545Z-www.YTS.LT.jpg', '2020-09-06 09:12:59', '2020-09-06 09:12:58', 1);
+(28, 2, 'Tuna Sandwich', 20000, '2020-09-06T09-12-58.545Z-www.YTS.LT.jpg', '2020-09-06 09:12:59', '2020-09-06 09:12:58', 1),
+(29, 2, 'Tuna Sandwich', 20000, '2020-09-07T03-11-30.359Z-www.YTS.LT.jpg', '2020-09-07 03:11:30', '2020-09-07 03:11:30', 1),
+(30, 2, 'Tuna Sandwich', 20000, '2020-09-07T04-08-53.989Z-www.YTS.LT.jpg', '2020-09-07 04:08:54', '2020-09-07 04:08:53', 1),
+(32, 2, 'Aqua', 5000, '2020-09-07T06-48-55.862Z-www.YTS.LT.jpg', '2020-09-07 06:48:56', '2020-09-07 06:48:55', 1),
+(33, 2, 'Espresso', 30000, '', '2020-09-07 07:03:39', '2020-09-07 07:03:40', 1);
 
 -- --------------------------------------------------------
 
@@ -223,8 +225,10 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`user_id`, `user_email`, `user_password`, `user_name`, `user_role`, `user_status`, `created_at`, `updated_at`) VALUES
-(6, 'admin@gmail.com', '$2b$10$jYXPyi3l.xdaMb5FLeMCOekHPC87at53tPHUTh8leBP0HiPNA2Lym', 'ADMIN', 1, 0, '2020-09-03 16:41:55', '2020-09-03 23:41:56'),
-(8, 'naldi@yahoo.com', '$2b$10$6d6RTDQOC6e5HlolblIPQO0Z/hhGI0TuBleRhhOqNrExXcEzMpV5m', 'naldi', 2, 0, '2020-09-06 09:29:57', '2020-09-06 16:17:02');
+(6, 'admin@gmail.com', '$2b$10$jYXPyi3l.xdaMb5FLeMCOekHPC87at53tPHUTh8leBP0HiPNA2Lym', 'ADMIN', 1, 1, '2020-09-07 02:41:32', '2020-09-03 23:41:56'),
+(8, 'naldi@yahoo.com', '$2b$10$6d6RTDQOC6e5HlolblIPQO0Z/hhGI0TuBleRhhOqNrExXcEzMpV5m', 'naldi', 2, 0, '2020-09-06 09:29:57', '2020-09-06 16:17:02'),
+(9, 'mhd.naldi@yahoo.com', '$2b$10$GIfx6xSNONm2miwKGeeQHOKDz9dufKrz1iaGhC.KT0NsZZdXIzbDm', 'mhdnaldi', 2, 1, '2020-09-07 02:46:34', '2020-09-07 09:45:38'),
+(10, 'test1@yahoo.com', '$2b$10$JF8TkwPt2dRBq47O1WzRyuXDmdRV.kcUo5gvST8BciAwXI/qf56ZK', 'test', 2, 1, '2020-09-07 07:10:53', '2020-09-07 13:40:59');
 
 --
 -- Indexes for dumped tables
@@ -280,7 +284,7 @@ ALTER TABLE `history`
 -- AUTO_INCREMENT for table `menu_items`
 --
 ALTER TABLE `menu_items`
-  MODIFY `menu_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+  MODIFY `menu_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
 
 --
 -- AUTO_INCREMENT for table `orders`
@@ -292,7 +296,7 @@ ALTER TABLE `orders`
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

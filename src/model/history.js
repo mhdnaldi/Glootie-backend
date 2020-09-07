@@ -74,7 +74,6 @@ module.exports = {
       );
     });
   },
-  // --------------------------------------- CARD YEARLY INCOME
   getYearlyIncome: () => {
     return new Promise((resolve, reject) => {
       connection.query(
@@ -85,7 +84,6 @@ module.exports = {
       );
     });
   },
-  // ----------------------------------------- RECENT ORDER TABLE
   recentOrders: () => {
     return new Promise((resolve, reject) => {
       connection.query(
@@ -96,7 +94,6 @@ module.exports = {
       );
     });
   },
-  // --------------------------------- CHART
   chart: () => {
     return new Promise((resolve, reject) => {
       connection.query(

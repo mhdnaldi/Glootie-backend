@@ -1,6 +1,4 @@
 const helper = require("../helper/helper");
-// MULTER
-
 const multer = require("multer");
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -20,11 +18,10 @@ const storage = multer.diskStorage({
 let upload = multer({
   storage,
   limits: {
-    fileSize: 1000000, //max size 1mb
+    fileSize: 1000000,
   },
 }).single("menu_image");
 
-// ERROR HANDLING
 const uploadFilter = (req, res, next) => {
   upload(req, res, (err) => {
     if (err instanceof multer.MulterError) {
@@ -35,6 +32,5 @@ const uploadFilter = (req, res, next) => {
     next();
   });
 };
-// ----- MULTER -----
 
 module.exports = uploadFilter;

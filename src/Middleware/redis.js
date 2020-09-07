@@ -9,7 +9,6 @@ module.exports = {
     });
     next();
   },
-  // MENU
   getMenuItemRedis: (req, res, next) => {
     client.get(`getmenu:${JSON.stringify(req.query)}`, (err, data) => {
       if (!err && data != null) {
@@ -40,8 +39,6 @@ module.exports = {
       }
     });
   },
-
-  // CATEGORY
   getCategoryItemRedis: (req, res, next) => {
     client.get("getcategoryitem", (err, data) => {
       if (!err && data != null) {
@@ -62,7 +59,6 @@ module.exports = {
       }
     });
   },
-  // HISTORY
   getAllHistoryRedis: (req, res, next) => {
     client.get("gethistory", (err, data) => {
       if (!err && data != null) {
@@ -123,7 +119,6 @@ module.exports = {
       }
     });
   },
-  // ORDERS
   getAllOrderRedis: (req, res, next) => {
     client.get("getorders", (err, data) => {
       if (!err && data != null) {

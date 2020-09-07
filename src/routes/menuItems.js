@@ -1,4 +1,3 @@
-// MULTER
 const uploadImage = require("../Middleware/multer");
 
 const router = require("express").Router();
@@ -18,7 +17,6 @@ const {
   clearDataRedis,
 } = require("../Middleware/redis");
 
-// AUTH
 const { authorizationAll, authorizationAdmin } = require("../Middleware/auth");
 
 router.get("/", authorizationAll, getMenuItemRedis, getMenuItem);

@@ -50,7 +50,6 @@ module.exports = {
     let prevPage = getPrevPage(page, req.query);
     let nextPage = getNextPage(page, req.query, totalPage);
 
-    // sort logic
     let str = sort;
     let sortBy = () => {
       let string = "";
@@ -84,7 +83,6 @@ module.exports = {
       return string;
     };
     let sorting = sortBy();
-    // ----------------------------
 
     const pageInfo = {
       totalData,
@@ -117,7 +115,6 @@ module.exports = {
 
     try {
       let result = await searchItemByName(str);
-      // redis
       client.setex(
         `searchname:${JSON.stringify(req.query)}`,
         3600,
@@ -184,7 +181,6 @@ module.exports = {
       const { category_id, menu_name, menu_price, menu_status } = req.body;
       const { id } = req.params;
 
-      // MULTER DELETE OLD IMG
       const getImage = await getMenuId(id);
       const img = getImage[0].menu_image;
       fs.unlink(`uploads/${img}`, (err) => {

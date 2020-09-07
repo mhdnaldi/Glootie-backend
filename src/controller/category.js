@@ -13,7 +13,6 @@ module.exports = {
   getCategoryItem: async (req, res) => {
     try {
       const result = await getCategoryItem();
-      // redis
       client.setex(`getcategoryitem`, 3600, JSON.stringify(result));
       return helper.response(res, 200, "Data found", result);
     } catch (err) {
