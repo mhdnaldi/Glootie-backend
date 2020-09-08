@@ -11,7 +11,7 @@ const {
   getCategoryItemRedis,
   getCategoryIdRedis,
   clearDataRedis,
-} = require("../middleware/redis");
+} = require("../Middleware/redis");
 
 router.get("/", getCategoryItemRedis, getCategoryItem);
 router.get("/:id", getCategoryIdRedis, getCategoryId);

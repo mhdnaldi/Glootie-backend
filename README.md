@@ -36,6 +36,7 @@ DB_PASS=root
 DB_DATABASE=week4_database
 
 JWT_KEY=PASSWORD
+PORT=3000
 ```
 
 ## End Point
