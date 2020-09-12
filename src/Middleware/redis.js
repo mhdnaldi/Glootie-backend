@@ -105,7 +105,7 @@ module.exports = {
         return helper.response(res, 200, "Success get data", JSON.parse(data));
       } else {
         console.log("Data not found");
-        next;
+        next();
       }
     });
   },

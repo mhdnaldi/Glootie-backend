@@ -184,7 +184,7 @@ module.exports = {
       const getImage = await getMenuId(id);
       const img = getImage[0].menu_image;
       fs.unlink(`uploads/${img}`, (err) => {
-        !err ? console.log("SEDEP") : console.log(err);
+        !err ? console.log("OK") : console.log(err);
       });
 
       const setData = {

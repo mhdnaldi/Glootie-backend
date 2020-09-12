@@ -19,7 +19,7 @@ const {
 
 const { authorizationAll, authorizationAdmin } = require("../Middleware/auth");
 
-router.get("/", authorizationAll, getMenuItemRedis, getMenuItem);
+router.get("/", authorizationAll, getMenuItem);
 router.get("/search", authorizationAll, getItemByNameRedis, getItemByName);
 router.get("/:id", authorizationAll, getMenuIdRedis, getMenuId);
 router.post("/", authorizationAdmin, uploadImage, postMenu);
