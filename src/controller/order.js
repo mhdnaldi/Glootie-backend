@@ -46,6 +46,7 @@ module.exports = {
     }
   },
   postOrder: async (req, res) => {
+    const { name } = req.query;
     try {
       const setData = {
         invoice: Math.floor(Math.random() * 1000000),
@@ -75,6 +76,7 @@ module.exports = {
         let setUpdateHistory = {
           invoice: Math.floor(Math.random() * 1000000 + 1000000),
           history_subtotal: totalPrice + tax,
+          cashier: name,
         };
         let updateHistory = await patchHistory(setUpdateHistory, historyId);
         let allOrder = await getDataOrder(historyId);
@@ -84,7 +86,6 @@ module.exports = {
           tax,
           updateHistory,
         };
-        console.log(req.body);
         return helper.response(res, 200, "Success", pageInfo);
       });
     } catch (err) {
@@ -95,7 +96,6 @@ module.exports = {
     try {
       const result = await totalOrderThisWeek();
       client.setex("getordersweek", 3600, JSON.stringify(result));
-      console.log(result);
       return helper.response(res, 200, "Success", result);
     } catch (err) {
       return helper.response(res, 404, "Bad request", err);

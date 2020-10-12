@@ -86,6 +86,8 @@ module.exports = {
   // CARD RECENT ORDERS
   getRecentOrders: async (req, res) => {
     try {
+      const { id } = req.body;
+      console.log(id);
       const result = await recentOrders();
       client.setex("recentorder", 3600, JSON.stringify(result));
       for (let i = 0; i < result.length; i++) {
