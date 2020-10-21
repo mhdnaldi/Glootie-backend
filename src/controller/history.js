@@ -87,7 +87,6 @@ module.exports = {
   getRecentOrders: async (req, res) => {
     try {
       const { id } = req.body;
-      console.log(id);
       const result = await recentOrders();
       client.setex("recentorder", 3600, JSON.stringify(result));
       for (let i = 0; i < result.length; i++) {
@@ -105,7 +104,6 @@ module.exports = {
       client.setex("chart", 3600, JSON.stringify(result));
       return helper.response(res, 201, "Data found", result);
     } catch (err) {
-      // console.log(err);
       return helper.response(res, 404, "Bad request", err);
     }
   },

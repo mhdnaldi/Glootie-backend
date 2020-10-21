@@ -33,7 +33,7 @@ Open .env file on your favorite code editor, and copy paste this code below :
 DB_HOST=localhost
 DB_USER=root
 DB_PASS=root
-DB_DATABASE=week4_database
+DB_DATABASE= dbname
 
 JWT_KEY=PASSWORD
 PORT=3000
@@ -119,6 +119,4 @@ PORT=3000
 - `/users/register` (Post Register)
 - `{ "user_email": "@email", "user_password" : ****, "user_name": "username" }`
 
-Glootie Postman: https://web.postman.co/collections/12612781-dc0172db-e69e-4dfd-86bf-c2f9efbc9b60?version=latest&workspace=6aeb0fc4-0bd0-47ec-8b8c-737166f0807d
-
-### After login don't forget to set token to authorization. with bearer token type!
+[Glootie Postman: ](https://documenter.getpostman.com/view/12612781/TVYCALJy)

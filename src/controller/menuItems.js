@@ -105,7 +105,6 @@ module.exports = {
       );
       return helper.response(res, 200, "Data found", result, pageInfo);
     } catch (err) {
-      console.log(err);
       return helper.response(res, 404, "Bad Request", err);
     }
   },
@@ -122,7 +121,7 @@ module.exports = {
       );
       res.send(result);
     } catch (err) {
-      console.log(err);
+      return helper.response(res, 400, "Bad request", err);
     }
   },
   getMenuId: async (req, res) => {
@@ -160,7 +159,6 @@ module.exports = {
   postMenu: async (req, res) => {
     try {
       const { category_id, menu_name, menu_price, menu_status } = req.body;
-      console.log(req.file);
       const setData = {
         category_id,
         menu_name,
@@ -204,7 +202,6 @@ module.exports = {
         return helper.response(res, 404, "Data not found");
       }
     } catch (err) {
-      console.log(err);
       return helper.response(res, 404, "Bad Request", err);
     }
   },

@@ -31,8 +31,7 @@ module.exports = {
         return helper.response(res, 404, `Data with id:${id}, not found`);
       }
     } catch (err) {
-      console.log(err);
-      // return helper.response(res, 400, "Bad request", err);
+      return helper.response(res, 400, "Bad request", err);
     }
   },
   registerUser: async (req, res) => {
@@ -65,7 +64,6 @@ module.exports = {
         }
       }
     } catch (err) {
-      console.log(err);
       return helper.response(res, 404, "Bad request", err);
     }
   },

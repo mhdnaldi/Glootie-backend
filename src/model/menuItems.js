@@ -37,7 +37,6 @@ module.exports = {
       connection.query(
         `SELECT * FROM menu_items WHERE menu_name ${search}`,
         (err, data) => {
-          // console.log(err);
           !err ? resolve(data) : reject(new Error(err));
         }
       );

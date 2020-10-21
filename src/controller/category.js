@@ -34,7 +34,6 @@ module.exports = {
         return helper.response(res, 404, `Data with id:${id} not found`);
       }
     } catch (err) {
-      console.log(err);
       return helper.response(res, 404, "Bad request", err);
     }
   },
@@ -49,7 +48,6 @@ module.exports = {
       return helper.response(res, 200, "Data created", result);
     } catch (err) {
       return helper.response(res, 404, "Bad Request", err);
-      console.log(err);
     }
   },
   patchCategory: async (req, res) => {

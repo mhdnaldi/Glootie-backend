@@ -5,7 +5,7 @@ const helper = require("../helper/helper");
 module.exports = {
   clearDataRedis: (req, res, next) => {
     client.flushall((err, data) => {
-      console.log(data);
+      data;
     });
     next();
   },
@@ -14,7 +14,6 @@ module.exports = {
       if (!err && data != null) {
         return helper.response(res, 200, "Success get data", JSON.parse(data));
       } else {
-        console.log("Data not available");
         next();
       }
     });
@@ -24,7 +23,6 @@ module.exports = {
       if (!err && data != null) {
         return helper.response(res, 200, "Success get data", JSON.parse(data));
       } else {
-        console.log("Data not available");
         next();
       }
     });
@@ -34,7 +32,6 @@ module.exports = {
       if (!err && data != null) {
         return helper.response(res, 200, "Success get data", JSON.parse(data));
       } else {
-        console.log("Data not available");
         next();
       }
     });
@@ -44,7 +41,6 @@ module.exports = {
       if (!err && data != null) {
         return helper.response(res, 200, "Success get data", JSON.parse(data));
       } else {
-        console.log("Data not found");
         next();
       }
     });
@@ -54,7 +50,6 @@ module.exports = {
       if (!err && data != null) {
         return helper.response(res, 200, "Success get data", JSON.parse(data));
       } else {
-        console.log("Data not found");
         next();
       }
     });
@@ -64,7 +59,6 @@ module.exports = {
       if (!err && data != null) {
         return helper.response(res, 200, "Success get data", JSON.parse(data));
       } else {
-        console.log("Data not found");
         next();
       }
     });
@@ -74,7 +68,6 @@ module.exports = {
       if (!err && data != null) {
         return helper.response(res, 200, "Success get data", JSON.parse(data));
       } else {
-        console.log("Data not ready");
         next();
       }
     });
@@ -84,7 +77,6 @@ module.exports = {
       if (!err && data != null) {
         return helper.response(res, 200, "Success get data", JSON.parse(data));
       } else {
-        console.log("Data not found");
         next();
       }
     });
@@ -94,7 +86,6 @@ module.exports = {
       if (!err && data != null) {
         return helper.response(res, 200, "Success get data", JSON.parse(data));
       } else {
-        console.log("Data not found");
         next();
       }
     });
@@ -104,7 +95,6 @@ module.exports = {
       if (!err && data != null) {
         return helper.response(res, 200, "Success get data", JSON.parse(data));
       } else {
-        console.log("Data not found");
         next();
       }
     });
@@ -114,7 +104,6 @@ module.exports = {
       if (!err && data != null) {
         return helper.response(res, 200, "Success get data", JSON.parse(data));
       } else {
-        console.log("Data not found");
         next();
       }
     });
@@ -124,7 +113,6 @@ module.exports = {
       if (!err && data != null) {
         return helper.response(res, 200, "Success get data", JSON.parse(data));
       } else {
-        console.log("Data not found");
         next();
       }
     });
@@ -134,7 +122,6 @@ module.exports = {
       if (!err && data != null) {
         return helper.response(res, 200, "Success get data", JSON.parse(data));
       } else {
-        console.log("Data not found");
         next();
       }
     });
@@ -144,7 +131,6 @@ module.exports = {
       if (!err && data != null) {
         return helper.response(res, 200, "Success get data", JSON.parse(data));
       } else {
-        console.log("Data not found");
         next();
       }
     });
